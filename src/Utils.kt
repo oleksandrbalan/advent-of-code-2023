@@ -15,6 +15,24 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
     .toString(16)
     .padStart(32, '0')
 
+inline fun <T> List<T>.splitBy(predicate: (T) -> Boolean): List<List<T>> {
+    val result = mutableListOf<List<T>>()
+    var buffer = mutableListOf<T>()
+
+    for (element in this) {
+        if (predicate(element)) {
+            result.add(buffer)
+            buffer = mutableListOf()
+        } else {
+            buffer.add(element)
+        }
+    }
+
+    result.add(buffer)
+
+    return result
+}
+
 /**
  * The cleaner shorthand for printing output.
  */
